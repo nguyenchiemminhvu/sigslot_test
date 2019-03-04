@@ -30,5 +30,8 @@ int main(int argc, char **argv)
 	all_off.Clicked.connect(&lp3, &Light::TurnOff);
 	all_off.Clicked.connect(&lp4, &Light::TurnOff);
 
+	all_on.Clicked();
+	all_off.Clicked();
+
 	return 0;
 }

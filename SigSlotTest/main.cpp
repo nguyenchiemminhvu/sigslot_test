@@ -3,35 +3,34 @@
 
 using namespace sigslot;
 
-class Light : public has_slots<>
+class Window
 {
 public:
-	void ToggleState() { std::cout << "Toggle state" << std::endl; }
-	void TurnOn() { std::cout << "Turn on" << std::endl; }
-	void TurnOff() { std::cout << "Turn off" << std::endl; }
-};
-class Switch
-{
-public:
-	signal0<> Clicked;
+	Window() { }
+	void SetSize(int width, int height)
+	{
+		Resized(width, height);
+	}
+
+public: // signals
+	signal2<int, int> Resized;
 };
 
-Switch all_on, all_off;
-Light lp1, lp2, lp3, lp4;
+class WindowMoniter : public has_slots<>
+{
+public: // slots
+	void OnResize(int width, int height)
+	{
+		std::cout << "Window resized to " << width << " x " << height << std::endl;
+	}
+};
 
 int main(int argc, char **argv)
 {
-	all_on.Clicked.connect(&lp1, &Light::TurnOn);
-	all_on.Clicked.connect(&lp2, &Light::TurnOn);
-	all_on.Clicked.connect(&lp3, &Light::TurnOn);
-	all_on.Clicked.connect(&lp4, &Light::TurnOn);
-	all_off.Clicked.connect(&lp1, &Light::TurnOff);
-	all_off.Clicked.connect(&lp2, &Light::TurnOff);
-	all_off.Clicked.connect(&lp3, &Light::TurnOff);
-	all_off.Clicked.connect(&lp4, &Light::TurnOff);
-
-	all_on.Clicked();
-	all_off.Clicked();
+	Window w;
+	WindowMoniter m;
+	w.Resized.connect(&m, &WindowMoniter::OnResize);
+	w.SetSize(1024, 768);
 
 	return 0;
 }

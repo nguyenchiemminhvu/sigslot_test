@@ -1,15 +1,15 @@
 #include "sigslot\sigslot.h"
 #include <iostream>
 
-#define EXAMPLE_SWITCH_AND_LIGHT_BASIC			1
-#define EXAMPLE_SWITCH_AND_LIGHT_NEW			2
+#define EXAMPLE_SIGSLOT_PARADIGM_OLD			1
+#define EXAMPLE_SIGSLOT_PARADIGM_NEW			2
 #define EXAMPLE_ARGUMENT_TYPES					3
 #define EXAMPLE_CONNECTING_SIGNALS_WITH_SLOTS	4
 #define EXAMPLE_EMITTING_SIGNALS				5
 
 #define EXAMPLE									1
 
-#if EXAMPLE == EXAMPLE_SWITCH_AND_LIGHT_BASIC
+#if EXAMPLE == EXAMPLE_SIGSLOT_PARADIGM_OLD
 
 class Light
 {
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-#elif EXAMPLE == EXAMPLE_SWITCH_AND_LIGHT_NEW
+#elif EXAMPLE == EXAMPLE_SIGSLOT_PARADIGM_NEW
 
 class Light : public sigslot::has_slots<>
 {
@@ -186,6 +186,9 @@ int main()
 	// changing window's size
 	w.SetSize(1024, 768);
 	w.SetSize(1900, 1080);
+
+	// emiting unconnected signal
+	w.Resized.disconnect_all();
 	w.SetSize(1366, 768);
 
 	return 0;
